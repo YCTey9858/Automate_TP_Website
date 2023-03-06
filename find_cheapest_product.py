@@ -33,7 +33,21 @@ if __name__ == '__main__':
     store = input('Which store you want: ')
 
     # if category == 'all':
-    #
+    if category == 'all':
+        if country == 'Singapore':
+            category = ["computers", "mobile-phones", "cameras", "tv-audio-video", "home-appliances", "health-beauty", "watches",]
+        elif country == 'Malaysia':
+            pass
+        elif country == 'Indonesia':
+            pass
+        elif country == 'Thailand':
+            pass
+        elif country == 'Philippines':
+            pass
+        elif country == 'Vietnam':
+            pass
+        elif country == 'Hong Kong':
+            pass
     # else:
     driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.COMMAND + 't')
     full_url = country_list[country] + '/' + category + '/?store=' + store + '&sort=price.net_asc'
