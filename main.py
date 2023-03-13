@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 # from seleniumwire import webdriver
 # from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from seleniumwire.undetected_chromedriver import Chrome, ChromeOptions
 import time
 from datetime import datetime
@@ -97,14 +99,17 @@ def iprice_website(driver, tp_wesbite):
 
     print("Affiliate Source")
     print(extract_information(list, start_str="&aff_id"))
+    # time.sleep(10)
 
-    time.sleep(10)
     print("Click on the Buy Now button")
-    driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[20]/div/div[1]/div/section/div/div/section/div/button[3]').click()
-    time.sleep(2)
+    # driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[20]/div/div[1]/div/section/div/div/section/div/button[3]').click()
+    driver.find_element(By.XPATH, "//button[@class='blu-btn b-primary btn-checkout']").click()
+    time.sleep(15)
 
     print("Click on the Checkout button")
-    driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[20]/div/div[1]/div/section/div/div/div[4]/div[1]/div[1]/div/div/div[6]/button').click()
+    # driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div[20]/div/div[1]/div/section/div/div/div[4]/div[1]/div[1]/div/div/div[6]/button').click()
+    driver.find_element(By.XPATH, "//button[@class='blu-btn b-icon b-primary add-btn mode-small']").click()
+
     time.sleep(2)
 
 
