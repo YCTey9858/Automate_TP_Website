@@ -8,7 +8,7 @@ def start_driver():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("--disable-extensions")
     options.add_argument("--start-maximized")
-    # chrome_options.add_argument('--headless')
+    # options.add_argument('--headless')
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
@@ -23,35 +23,39 @@ if __name__ == '__main__':
 
     # iPrice Country URL
     country_list = {'Singapore': 'https://www.iprice.sg/', 'Malaysia': 'https://www.iprice.my/', 'Indonesia': 'https://www.iprice.co.id/',
-               'Thailand': 'https://www.iprice.co.th/', 'Philippines': 'https://www.iprice.ph/', 'Vietnam': 'https://www.iprice.vn/',
+               'Thailand': 'https://ipricethailand.com/', 'Philippines': 'https://www.iprice.ph/', 'Vietnam': 'https://www.iprice.vn/',
                'Hong Kong': 'https://www.iprice.hk/'}
 
-    category = input('Which category you want: '
-                     'If you want to search for all categories, please enter "all": ')
+    category = input('Which category you want: ')
 
-    country
     store = input('Which store you want: ')
 
-    # if category == 'all':
     if category == 'all':
         if country == 'Singapore':
-            category = ["computers", "mobile-phones", "cameras", "tv-audio-video", "home-appliances", "health-beauty", "watches",]
+            category_file = 'iprice_sg.txt'
         elif country == 'Malaysia':
-            pass
+            category_file = 'iprice_my.txt'
         elif country == 'Indonesia':
-            pass
+            category_file = 'iprice_id.txt'
         elif country == 'Thailand':
-            pass
+            category_file = 'iprice_th.txt'
         elif country == 'Philippines':
-            pass
+            category_file = 'iprice_ph.txt'
         elif country == 'Vietnam':
-            pass
+            category_file = 'iprice_vn.txt'
         elif country == 'Hong Kong':
-            pass
-    # else:
-    driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.COMMAND + 't')
-    full_url = country_list[country] + '/' + category + '/?store=' + store + '&sort=price.net_asc'
-    driver.get(full_url)
-    time.sleep(60)
+            category_file = 'iprice_hk.txt'
 
-
+        # opening the text file
+        target_file = open(category_file, "r")
+        data = target_file.read()
+        data_into_list = data.split("\n")
+        print(data_into_list)
+        target_file.close()
+        for category in data_into_list:
+            full_url = country_list[country] + '/' + category + '/?store=' + store + '&sort=price.net_asc'
+            driver.get(full_url)
+    else:
+        full_url = country_list[country] + '/' + category + '/?store=' + store + '&sort=price.net_asc'
+        driver.get(full_url)
+        time.sleep(60)
