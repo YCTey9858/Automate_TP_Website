@@ -55,6 +55,15 @@ if __name__ == '__main__':
         for category in data_into_list:
             full_url = country_list[country] + '/' + category + '/?store=' + store + '&sort=price.net_asc'
             driver.get(full_url)
+            driver.find_element(By.CSS_SELECTOR, 'a[data-ga-trigger="ga-conversion"]').click()
+            print("Click on the first product")
+
+            # Step 2.3: Switch to the second tab#
+            tabs = driver.window_handles
+            driver.switch_to.window(tabs[1])
+            print("Switch to the second tab")
+            driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.ESCAPE)
+            print("Stop the pop-up")
     else:
         full_url = country_list[country] + '/' + category + '/?store=' + store + '&sort=price.net_asc'
         driver.get(full_url)
