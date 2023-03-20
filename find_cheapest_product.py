@@ -1,4 +1,4 @@
-from seleniumwire.undetected_chromedriver import Chrome, ChromeOptions
+from seleniumwire.undetected_chromedriver.v2 import Chrome, ChromeOptions
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import time
@@ -71,7 +71,7 @@ if __name__ == '__main__':
             i += 1
             full_url = country_list[country] + category + '/?store=' + store + '&sort=price.net_asc'
             driver.get(full_url)
-            time.sleep(2)
+            time.sleep(1)
             try:
                 element = driver.find_element(By.CSS_SELECTOR, 'a[data-ga-trigger="ga-conversion"]')
                 item_name = element.find_element(By.CSS_SELECTOR, 'h3').text
