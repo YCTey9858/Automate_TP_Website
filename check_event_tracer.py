@@ -1,8 +1,10 @@
 from seleniumwire.undetected_chromedriver import Chrome, ChromeOptions
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import time
 import pandas as pd
+from fuzzywuzzy import fuzz
+
 
 def start_driver():
     options = ChromeOptions()
@@ -17,37 +19,76 @@ def start_driver():
     driver = Chrome(options=options)
     return driver
 
+
 if __name__ == '__main__':
-    driver = start_driver()
+    # driver = start_driver()
+    #
+    # driver.get('https://partner.ipricegroup.com/admin/stats/event_tracer')
+    # time.sleep(5)
 
-    driver.get('https://partner.ipricegroup.com/admin/stats/event_tracer')
+    # Login
+    # username = input('Enter your username: ')
+    # password = input('Enter your password: ')
+    # username = 'yi.chuan@ipricegroup.com'
+    # password = '@@Iprice2023'
+    # driver.find_element(By.XPATH, '//*[@id="UserEmail"]').send_keys(username)
+    # driver.find_element(By.XPATH, '//*[@id="UserPassword"]').send_keys(password)
+    #
+    # driver.find_element(By.XPATH, '//*[@id="loginButton"]').click()
+    #
+    # time.sleep(5)
+    #
+    # # Event Tracer
+    # driver.get('https://partner.ipricegroup.com/admin/stats/event_tracer')
+    #
+    # time.sleep(15)
+    # # Select Partner
+    # driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]').click()
+    # time.sleep(2)
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[1]/div[1]').click()
+    # time.sleep(2)
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[3]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[4]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[5]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[6]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[7]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[8]/span/input').click()
+    #
+    # # Select Advertiser
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[1]/div[1]').click()
+    # time.sleep(2)
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[3]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[4]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[5]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[6]/span/input').click()
+    # driver.find_element(By.XPATH,
+    #                     '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[7]/span/input').click()
+    #
+    # driver.find_element(By.XPATH,)
+    # # Run Event Tracer
+    # driver.find_element(By.XPATH, '//*[@id="run-eventLog"]').click()
+    #
+    # # Export Event Tracer
+    # driver.find_element(By.XPATH, '//*[@id="export-eventLog"]').send_keys(Keys.ENTER)
 
-    username = input('Enter your username: ')
-    password = input('Enter your password: ')
-    driver.find_element(By.XPATH, '//*[@id="UserEmail"]').send_keys(username)
-    driver.find_element(By.XPATH, '//*[@id="UserPassword"]').send_keys(password)
+    # Find the Event Tracer Download Path
+    event_tracer_file = input('Enter the file path: ')
 
-    driver.find_element(By.XPATH, '//*[@id="loginButton"]').click()
+    event_tracer = pd.read_csv(event_tracer_file)
 
-    time.sleep(5)
+    event_tracer['igsource_match'] = event_tracer['igsource'].apply(lambda x: x.find('igsource'))
+    event_tracer['Buying Match'] = event_tracer['Buying Match'].apply(lambda x: x.find('Buying Match'))
 
-    driver.get('https://partner.ipricegroup.com/admin/stats/event_tracer')
-
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[3]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[4]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[5]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[6]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[7]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[2]/div[2]/div/ul/li[8]/span/input').click()
-
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[3]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[4]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[5]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[6]/span/input').click()
-    driver.find_element(By.XPATH, '//*[@id="qed"]/div/div/div[1]/div/div/div[1]/form/div[2]/div[2]/div/ul/div[4]/div[2]/div/ul/li[7]/span/input').click()
-
-    driver.find_element(By.XPATH, '//*[@id="run-eventLog"]').click()
-
-    driver.find_element(By.XPATH, '//*[@id="export-eventLog"]').click()
-
-    print(driver.page_source)
+    # fuzz partial ratio
