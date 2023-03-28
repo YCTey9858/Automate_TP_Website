@@ -3,6 +3,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import time
 import pandas as pd
+import warnings
+
+warnings.filterwarnings('ignore')
 
 def start_driver():
     options = ChromeOptions()
@@ -20,7 +23,7 @@ def start_driver():
 if __name__ == '__main__':
     driver = start_driver()
     country = input('Which country you want: '
-                    'Singapore, Malaysia, Indonesia, Thailand, Philippines, Vietnam, Hong Kong: ')
+                    'Singapore, Malaysia, Indonesia, Philippines, Vietnam, Hong Kong: ')
 
     # iPrice Country URL
     country_list = {'Singapore': 'https://www.iprice.sg/', 'Malaysia': 'https://www.iprice.my/', 'Indonesia': 'https://www.iprice.co.id/',
@@ -45,9 +48,6 @@ if __name__ == '__main__':
         elif country == 'Indonesia':
             category_file = 'iprice_id.txt'
             currency = 'Rp'
-        elif country == 'Thailand':
-            category_file = 'iprice_th.txt'
-            currency = 'บาท'
         elif country == 'Philippines':
             category_file = 'iprice_ph.txt'
             currency = '₱'
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         target_file = open(category_file, "r")
         data = target_file.read()
         data_into_list = data.split("\n")
-        print(data_into_list)
+        print("Total number of categories: ", len(data_into_list))
         target_file.close()
 
         i = 0

@@ -84,11 +84,17 @@ if __name__ == '__main__':
     # driver.find_element(By.XPATH, '//*[@id="export-eventLog"]').send_keys(Keys.ENTER)
 
     # Find the Event Tracer Download Path
-    event_tracer_file = input('Enter the file path: ')
-
+    event_tracer_file = input('Enter the event tracer file path: ')
     event_tracer = pd.read_csv(event_tracer_file)
-
-    event_tracer['igsource_match'] = event_tracer['igsource'].apply(lambda x: x.find('igsource'))
-    event_tracer['Buying Match'] = event_tracer['Buying Match'].apply(lambda x: x.find('Buying Match'))
-
-    # fuzz partial ratio
+    match_type = input('Enter the match type (1,2,3): '
+                       '1. IG source'
+                       '2. Product Name'
+                       '3. Purchase Date')
+    if match_type == '1':
+        igsource = input('Enter the igsource (If Cant get then skip this): ')
+        event_tracer['Match'] = event_tracer['igsource'].str.contains(igsource)
+    elif match_type == '2':
+        product_name = input('Enter the product name: ')
+        event_tracer = event_tracer[event_tracer['product_name'] == product_name]
+    elif match_type == '3':
+        purchase_date = input('Enter the purchase date: ')
