@@ -1,8 +1,30 @@
+"""
+This script is used to check the number of channels for a site.
+
+How to use:
+1. Download the csv file from Productsup main page
+2. Run the script and enter the csv file path
+3. The output will be saved to output.csv
+
+Potential Error:
+1. file not found: check the file path
+2. API cannot be reached: check the API key
+3. output.csv is empty: check the site id
+4. Package not found: check the package name and reinstall the package
+"""
+
 import requests
 import pandas as pd
 
+
 def get_number_of_channels(site_id):
-    PU_CRED = {"X-Auth-Token": "4326:145rvcD4g1xgxsd6s4s3ss4aCaaF23as"}
+    """
+    Get the number of channels for a site
+    """
+    # Productsup API Key for iPrice Get from Productsup or your Manager
+    PU_CRED = "Replace Me"
+
+    # URL Formation
     urls = 'https://platform-api.productsup.io/platform/v2/sites/' + str(site_id) + '/channels'
 
     response = requests.get(urls, headers=PU_CRED)
@@ -13,8 +35,11 @@ def get_number_of_channels(site_id):
 
     return number_of_channels
 
+
 if __name__ == '__main__':
-    check_list = pd.read_csv('/Users/yichuantey/PycharmProjects/Automate_TP_Website/Productsup_iprice group Sdn Bhd-4326-20230330.csv')
+    # Read the csv file that download from Productsup main page
+    check_list_path = input('Enter the full csv file path: ')
+    check_list = pd.read_csv(check_list_path)
     check_list.dropna(axis=1, inplace=True)
     check_list['number_of_channels'] = check_list['Site ID'].apply(get_number_of_channels)
     check_list.to_csv('output.csv', index=False)

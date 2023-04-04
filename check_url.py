@@ -1,6 +1,5 @@
-import csv
+"""Check if a URL is valid or not."""
 import requests
-from multiprocessing import Pool
 
 def check_url(url):
     try:
